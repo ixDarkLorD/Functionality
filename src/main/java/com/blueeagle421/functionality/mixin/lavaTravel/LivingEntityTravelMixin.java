@@ -80,7 +80,9 @@ public class LivingEntityTravelMixin {
         return original;
     }
 
-    @ModifyArg(method = "travel(Lnet/minecraft/world/phys/Vec3;)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;setDeltaMovement(Lnet/minecraft/world/phys/Vec3;)V"), index = 0)
+    // No index: the Vec3 is found by type, so this still applies when another mod (e.g. Aileron)
+    // redirects the call and shifts its arguments
+    @ModifyArg(method = "travel(Lnet/minecraft/world/phys/Vec3;)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;setDeltaMovement(Lnet/minecraft/world/phys/Vec3;)V"))
     private Vec3 reduceDownwardWhenInLava(Vec3 original) {
         LivingEntity self = (LivingEntity) (Object) this;
 
